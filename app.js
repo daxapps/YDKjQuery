@@ -23,7 +23,8 @@ var questions = [{
 var currentQuestion = 0;
 var correctAnswers = 0;
 var quizOver = false;
-
+var correctCount = 0;
+var incorrectCount = 0;
 // State management
 
 
@@ -52,8 +53,12 @@ $(".button").on("click", function() {
 	value = $("input[type='radio']:checked").val();
 	if (value == questions[currentQuestion].correctAnswer) {
 		$(".result").text("Correct!")
+		correctCount++;
+		$('.correctCount').text(correctCount)
 	} else {
 		$(".result").text("Incorrect")
+		incorrectCount++;
+		$(".incorrectCount").text(incorrectCount)
 	}
 
 	currentQuestion++;
