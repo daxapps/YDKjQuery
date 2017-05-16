@@ -37,9 +37,9 @@ function displayCurrentQuestion() {
 
 	$(".question").text(question);
 	$(choiceList).find("li").remove();
-	
+
 	var choice;
-	for (i = 0; i < numChoices; i++) {
+	for (var i = 0; i < numChoices; i++) {
 		choice = questions[currentQuestion].choices[i];
 		$('<li><input type="radio" value=' + i + ' name="dynradio" />' + choice + '</li>').appendTo(choiceList);
 	}
@@ -47,13 +47,17 @@ function displayCurrentQuestion() {
 }
 
 // Event listeners
-$("button").on("click", function() {
+$(".button").on("click", function() {
+	
+	value = $("input[type='radio']:checked").val();
+	if (value == questions[currentQuestion].correctAnswer) {
+		$(".result").text("Correct!")
+	} else {
+		$(".result").text("Incorrect")
+	}
+
 	currentQuestion++;
 
-	// value = $("input[type='radio']:checked").val();
-	// if (value === questions[currentQuestion].correctAnswer) {
-
-	// }
 	if (currentQuestion < questions.length) {
        displayCurrentQuestion();
     }
