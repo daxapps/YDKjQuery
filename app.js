@@ -26,15 +26,18 @@ var quizOver = false;
 
 // State management
 
+
+// DOM manipulation
+
 function displayCurrentQuestion() {
 	
 	var question = questions[currentQuestion].question;
-	var questionClass = $(document).find(".question");
 	var choiceList = $(document).find(".choiceList");
 	var numChoices = questions[currentQuestion]. choices.length;
 
-	$(questionClass).text(question);
-
+	$(".question").text(question);
+	$(choiceList).find("li").remove();
+	
 	var choice;
 	for (i = 0; i < numChoices; i++) {
 		choice = questions[currentQuestion].choices[i];
@@ -43,14 +46,17 @@ function displayCurrentQuestion() {
 	console.log(question)
 }
 
-
-// DOM manipulation
-
-
 // Event listeners
-$(this).find("button").on("click", function() {
-	value = $("input[type='radio']:checked").val();
+$("button").on("click", function() {
+	currentQuestion++;
 
+	// value = $("input[type='radio']:checked").val();
+	// if (value === questions[currentQuestion].correctAnswer) {
+
+	// }
+	if (currentQuestion < questions.length) {
+       displayCurrentQuestion();
+    }
 })
 
 
