@@ -62,6 +62,7 @@ $(".button").on("click", function() {
 	}
 
 	currentQuestion++;
+	$(".currentQuestion").text(currentQuestion + 1)
 
 	if (currentQuestion < questions.length) {
        displayCurrentQuestion();
