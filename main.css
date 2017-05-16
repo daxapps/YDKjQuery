@@ -1,0 +1,38 @@
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+h1 {
+	text-align: center;
+}
+
+.hidden0 {
+/*display: none;*/
+}
+
+.hidden1 {
+/*display: none;*/
+}
+
+.score {
+	/*display: block;
+	right: 10px;*/
+}
+
+fieldset {
+	border: 0;
+}
+
+li {
+	margin: 0;
+	list-style: none;
+}
+
+.result {
+	text-align: center;
+}
