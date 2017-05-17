@@ -50,10 +50,22 @@ function startQuiz() {
 	}
 }
 
+function displayNextQuestion() {
+	currentQuestion++;
+	// console.log(currentQuestion, questions.length)
+	if (currentQuestion < questions.length) {
+		$(".currentQuestion").text(currentQuestion + 1);
+		displayCurrentQuestion();
+	} else {
+		// quizStart = false;
+		$('.quiz, .result, .submitButton').hide()
+		$('.startButton').show().text("Play Again?")			
+	}
+}
+
 // DOM manipulation
 
 function displayCurrentQuestion() {
-	
 	
 	var question = questions[currentQuestion].question;
 	var choiceList = $(document).find(".choiceList");
@@ -96,26 +108,17 @@ $(".submitButton").on("click", function(event) {
 			$('.correctCount').text(correctCount)
 		} else if (value != questions[currentQuestion].correctAnswer){
 			$(".result").show().text("Incorrect 😭")
+			
+			$(".answerIs").show().text("The answer was " + questions[currentQuestion].choices[questions[currentQuestion].correctAnswer]).delay(3000).fadeOut(500)
 			incorrectCount++;
 			$(".incorrectCount").text(incorrectCount)
+			// $('li').find(questions[currentQuestion].correctAnswer).addClass('highlight').delay(3000)
+
 		}
 
-		currentQuestion++;
-		// console.log(currentQuestion, questions.length)
-		if (currentQuestion < questions.length) {
-			$(".currentQuestion").text(currentQuestion + 1);
-			displayCurrentQuestion();
-		} else {
-			// quizStart = false;
-			$('.quiz, .result, .submitButton').hide()
-			$('.startButton').show().text("Play Again?")
-			
-		}
-		
+		displayNextQuestion()	
 
 	}
-
-	
 })
 
 
