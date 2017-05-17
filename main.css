@@ -7,16 +7,12 @@
   margin: 0 auto;
 }
 
-h1 {
+h1, h2, p {
 	text-align: center;
 }
 
-.hidden0 {
-/*display: none;*/
-}
-
-.hidden1 {
-/*display: none;*/
+.hidden {
+display: none;
 }
 
 .score {
@@ -38,7 +34,7 @@ li {
 }
 
 .button {
-	width: 80px;
+	width: 100px;
 	height: 30px;
 	color: white;
 	background-color: blue;
