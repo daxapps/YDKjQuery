@@ -20,11 +20,6 @@ display: none;
 	color: white;
 }
 
-.score {
-	/*display: block;
-	right: 10px;*/
-}
-
 fieldset {
 	border: 0;
 }
@@ -35,15 +30,14 @@ li {
 }
 
 .button {
-	/*display: inline-block;*/
 	color: white;
 	background-color: blue;
 	border-radius: 5px;
-	/*text-align: center;*/
-	/*position: relative;*/
-	/*margin-left: auto;
-	margin-right: auto;*/
-	/*padding-top: 7px;*/
+}
+
+.startButton {
+	display: block;
+	margin: 0 auto;
 }
 
 h5 {
