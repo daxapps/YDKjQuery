@@ -34,19 +34,28 @@ var quizStart = false;
 var quizOver = false;
 var correctCount = 0;
 var incorrectCount = 0;
-// var questionsIndex = questions[0]
 
 // State management
 function startQuiz() {
 	currentQuestion = 0;
+	correctCount = 0;
+	incorrectCount = 0;
+	$('.result').text('');
+
 	if (quizStart === false){
-		$(".score, .quiz, .result, .submitButton").addClass("hidden");
+		$(".score, .quiz, .result, .submitButton, h5").hide();
 		$('.startButton').text("Start");
+		$('.currentQuestion').text("1")
 	} 
 	if (quizStart === true){
-		$(".explaination, .result, .startButton").addClass('hidden');
-		$(".score, .quiz, .result, .submitButton").removeClass("hidden");
+		$('.correctCount').text(correctCount)
+		$('.incorrectCount').text(incorrectCount)
+
+		$(".result, .startButton, .explaination").hide();
+		$(".score, .quiz, .result, .submitButton, h5").show();
 		$('.submitButton').text("Submit");
+		$('.currentQuestion').text('1')
+
 	}
 }
 
@@ -56,8 +65,10 @@ function displayNextQuestion() {
 	if (currentQuestion < questions.length) {
 		$(".currentQuestion").text(currentQuestion + 1);
 		displayCurrentQuestion();
+
 	} else {
-		// quizStart = false;
+		quizStart = true;
+
 		$('.quiz, .result, .submitButton').hide()
 		$('.startButton').show().text("Play Again?")			
 	}
@@ -68,16 +79,16 @@ function displayNextQuestion() {
 function displayCurrentQuestion() {
 	
 	var question = questions[currentQuestion].question;
-	var choiceList = $(document).find(".choiceList");
+	var choiceList = $(".choiceList");
 	var numChoices = questions[currentQuestion]. choices.length;
 
 	$(".question").text(question);
-	$(choiceList).find("li").remove();
+	choiceList.empty();
 
 	var choice;
 	for (var i = 0; i < numChoices; i++) {
 		choice = questions[currentQuestion].choices[i];
-		$('<li><input type="radio" value=' + i + ' name="dynradio" />' + choice + '</li>').appendTo(choiceList);
+		$('<li><input type="radio" value=' + i + ' name="dynradio" required/>' + " " + choice + '</li>').appendTo(choiceList);
 	}
 	console.log(question)
 }
@@ -93,37 +104,54 @@ $(".startButton").on("click", function(event) {
 })
 
 $(".submitButton").on("click", function(event) { 
+	event.preventDefault();
+	console.log("submitBTN pressed")
 	
-	value = $("input[type='radio']:checked").val();
+	$('h5').hide();
+	var value = $("input[type='radio']:checked").val();
+
 	console.log(value)
+	if (value === undefined) {
+		$('.result').show().text("Please answer question")
+	} else if (value == questions[currentQuestion].correctAnswer) {
+		$(".result").show().text("Correct! 😎")
+		correctCount++;
+		$('.correctCount').text(correctCount)
+	} else if (value != questions[currentQuestion].correctAnswer){
+		$(".result").show().text("Incorrect 😭")
+	
+		$(".answerIs").show().text("The answer is " + questions[currentQuestion].choices[questions[currentQuestion].correctAnswer])
+		incorrectCount++;
+		$(".incorrectCount").text(incorrectCount)
+	}
+})
+
+$(".nextQuestionButton").on("click", function(event) {
+	event.preventDefault();
+
+	$('h5').show();
+	var value = $("input[type='radio']:checked").val();
+
+	console.log(value);
+
 
 	if (value === undefined) {
-		$('.result').text("Please answer the question.")
-	} else {
-		$('.result').hide()
-
-		if (value == questions[currentQuestion].correctAnswer) {
-			$(".result").show().text("Correct! 😎")
-			correctCount++;
-			$('.correctCount').text(correctCount)
-		} else if (value != questions[currentQuestion].correctAnswer){
-			$(".result").show().text("Incorrect 😭")
-			
-			$(".answerIs").show().text("The answer was " + questions[currentQuestion].choices[questions[currentQuestion].correctAnswer]).delay(3000).fadeOut(500)
-			incorrectCount++;
-			$(".incorrectCount").text(incorrectCount)
-			// $('li').find(questions[currentQuestion].correctAnswer).addClass('highlight').delay(3000)
-
-		}
-
-		displayNextQuestion()	
-
+		$('.result').show().text("Please answer question")
+	} else {		
+		$('.result, .answerIs').hide();
+	// 	if (value == questions[currentQuestion].correctAnswer) {
+	// 			correctCount++;
+	// 		$('.correctCount').text(correctCount)
+	// } else if (value != questions[currentQuestion].correctAnswer){
+	// 			incorrectCount++;
+	// 		$(".incorrectCount").text(incorrectCount)
+	// }
+		displayNextQuestion();
 	}
+	
 })
 
 
 $(function() {
-	// displayCurrentQuestion();
 	startQuiz();
-
 });

@@ -11,25 +11,31 @@
 		<header>
 			<h1>YDKjQuery Quiz</h1>
 			<p class="explaination">This app tests your knowledge of jQuery with five questions.</p>
-			<h2 class="score"><span class="correctCount">0</span> correct, <span class="incorrectCount">0</span> incorrect</h2>
+			<h2 class="score"><span class="count correctCount">0</span> correct, <span class="count incorrectCount">0</span> incorrect</h2>
 		</header>
 		<main>
 			<div class="quiz">
-				<h3>Question <span class="currentQuestion">1</span> out of 5</h3>
-				<fieldset>
-					<legend class="question"><!-- Create a new jQuery object with elements added to the set of matched elements. --></legend>
-					<ul class="choiceList">
-						<!-- <li id="ans1"><input type="radio">  abc</li>
-						<li id="ans2"><input type="radio">  def</li>
-						<li id="ans3"><input type="radio">  ghi</li>
-						<li id="ans4"><input type="radio">  jkl</li> -->
-					</ul>
-				</fieldset>				
+				<h3>Question <span class="currentQuestion"></span> out of 5</h3>
+				<form action="#">
+					<fieldset>
+						<legend class="question"><!-- Create a new jQuery object with elements added to the set of matched elements. --></legend>
+						<ul class="choiceList">
+							<!-- <li id="ans1"><input type="radio">  abc</li>
+							<li id="ans2"><input type="radio">  def</li>
+							<li id="ans3"><input type="radio">  ghi</li>
+							<li id="ans4"><input type="radio">  jkl</li> -->
+						</ul>
+					</fieldset>
+					<button type="submit" class="button submitButton">Submit</button>
+					<button type="submit" class="button nextQuestionButton">Next</button>
+				</form>
+								
 			</div>
 			<h3 class="result"></h3>
 			<h3 class="answerIs"></h3>
-			<div class="button startButton"></div>
-			<div class="button submitButton"></div>
+			<button class="button startButton"></button>
+			<h5>Answer must be submitted to be scored.</h5>
+			
 		</main>
 
 	</div>

@@ -35,13 +35,17 @@ li {
 }
 
 .button {
-	width: 100px;
-	height: 30px;
+	/*display: inline-block;*/
 	color: white;
 	background-color: blue;
-	border-radius: 3px;
-	text-align: center;
-	position: relative;
-	margin: auto;
-	padding-top: 7px;
+	border-radius: 5px;
+	/*text-align: center;*/
+	/*position: relative;*/
+	/*margin-left: auto;
+	margin-right: auto;*/
+	/*padding-top: 7px;*/
+}
+
+h5 {
+	font-weight: 200;
 }
