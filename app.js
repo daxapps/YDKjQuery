@@ -24,36 +24,27 @@ var state = {
 	}],
 	route: 'start',
 	currentQuestionIndex: 0,
-	
-	quizStart: false,
 	correctCount: 0,
 	incorrectCount: 0,
 	choiceList: $(".choiceList")
-	
 };
 
 var currentQuestion = state.questions[state.currentQuestionIndex].question
 var numberOfChoices = state.questions[state.currentQuestionIndex].choices.length
 
 // State management
-// function setRoute(state, route) {
-//   state.route = route;
-// };
-
 function resetGame() {
 	state.correctCount = 0;
 	state.incorrectCount = 0;
-	// state.currentQuestionIndex = 0;
-	// setRoute(state, 'start');
-	console.log(state.currentQuestionIndex)
+	state.currentQuestionIndex = 0;
+	$('.question').text(state.questions[0].question);
 	$('.result').text('');
 	$('.currentQuestionCount').text("1");
 };
 
 function checkAnswer() {
+	$('h5').hide();
 	var value = $("input[type='radio']:checked").val();
-
-	// console.log(value)
 	if (value === undefined) {
 		$('.result').show().text("Please answer question")
 	} else if (value == state.questions[state.currentQuestionIndex].correctAnswer) {
@@ -62,72 +53,52 @@ function checkAnswer() {
 		$('.correctCount').text(state.correctCount)
 	} else if (value != state.questions[state.currentQuestionIndex].correctAnswer){
 		$(".result").show().text("Incorrect 😭")
-	
-		$(".answerIs").show().text("The answer is " + state.questions[state.currentQuestionIndex].choices[state.questions[state.currentQuestionIndex].correctAnswer])
+		$(".answerIs").show().text("The answer is " + 
+			state.questions[state.currentQuestionIndex]
+			.choices[state.questions[state.currentQuestionIndex]
+			.correctAnswer])
 		state.incorrectCount++;
 		$(".incorrectCount").text(state.incorrectCount)
 	}
 };
 
-function displayCurrentQuestion() {
-	console.log("QI:" + state.currentQuestionIndex)
-
-	$(".question").text(currentQuestion);
-	// console.log(currentQuestion)
-	state.choiceList.empty();
-
-	// listAnswerChoices(numChoices, choice, choiceList);
-	var choicesArray = state.questions[state.currentQuestionIndex].choices;
-	// console.log(state.questions[currentQuestionIndex])
-	for (var i = 0; i < numberOfChoices; i++) {
-		
-		$('<li><input type="radio" value=' + i + ' name="dynradio" required/>' + " " + choicesArray[i] + '</li>').appendTo(state.choiceList);
-	}
-}
-
-function displayNextQuestion() {
+function displayQuestion() {
 	state.currentQuestionIndex++;
-	// console.log("QI:" + state.currentQuestionIndex)
 	if (state.currentQuestionIndex < state.questions.length) {
 		$(".currentQuestionCount").text(state.currentQuestionIndex + 1);
 		currentQuestion = state.questions[state.currentQuestionIndex].question;
-		displayCurrentQuestion();
+		$(".question").text(currentQuestion);
+		$('h5').show();
+		displayAnswerChoices();
 	} else {
-		// quizStart = true;
 		$('.quiz, .result, .submitButton, h5').hide()
 		$('.startButton').show().text("Play Again?")			
 	}
 }
 
+function displayAnswerChoices() {
+	state.choiceList.empty();
+	var choicesArray = state.questions[state.currentQuestionIndex].choices;
+	for (var i = 0; i < numberOfChoices; i++) {	
+		$('<li><input type="radio" value=' + i + ' name="dynradio" required/>' + " " + choicesArray[i] + '</li>').appendTo(state.choiceList);
+	}
+}
+
 // Render functions
-// function renderApp() {
-
-// };
-
 function renderIntroPage() {
 	$(".score, .quiz, .result, .submitButton, h5").hide();
 	$('.startButton').text("Start");
 };
 
 function renderQuestionPage() {
-	state.currentQuestionIndex = 0;
-	$('.question').text(currentQuestion);
-	console.log("QI:" + state.currentQuestionIndex)
-
 	resetGame();
-	$('.correctCount').text(state.correctCount)
-	$('.incorrectCount').text(state.incorrectCount)
+	$('.correctCount').text(state.correctCount);
+	$('.incorrectCount').text(state.incorrectCount);
 	$(".result, .startButton, .explaination").hide();
 	$(".score, .quiz, .submitButton, h5").show();
 	$('.submitButton').text("Submit");
-	displayCurrentQuestion();
-	// $(".question").text(currentQuestion);
-	// console.log(currentQuestion)
+	displayAnswerChoices();
 }
-
-
-
-
 
 // Event listeners
 $(".startButton").on("click", function(event) {
@@ -139,21 +110,18 @@ $(".startButton").on("click", function(event) {
 $(".submitButton").on("click", function(event) { 
 	event.preventDefault();
 	
-	$('h5').hide();
 	checkAnswer();
 })
 
 $(".nextQuestionButton").on("click", function(event) {
 	event.preventDefault();
 
-	$('h5').show();
 	var value = $("input[type='radio']:checked").val();
-	console.log(value);
 	if (value === undefined) {
 		$('.result').show().text("Please answer question")
 	} else {		
 		$('.result, .answerIs').hide();
-		displayNextQuestion();
+		displayQuestion();
 	}
 })
 
