@@ -22,7 +22,6 @@ var state = {
 		choices: [".dequeue()", ".eq()", ".find()", ".delay"],
 		correctAnswer: 0
 	}],
-	route: 'start',
 	currentQuestionIndex: 0,
 	correctCount: 0,
 	incorrectCount: 0,
@@ -33,35 +32,6 @@ var currentQuestion = state.questions[state.currentQuestionIndex].question
 var numberOfChoices = state.questions[state.currentQuestionIndex].choices.length
 
 // State management
-function resetGame() {
-	state.correctCount = 0;
-	state.incorrectCount = 0;
-	state.currentQuestionIndex = 0;
-	$('.question').text(state.questions[0].question);
-	$('.result').text('');
-	$('.currentQuestionCount').text("1");
-};
-
-function checkAnswer() {
-	$('h5').hide();
-	var value = $("input[type='radio']:checked").val();
-	if (value === undefined) {
-		$('.result').show().text("Please answer question")
-	} else if (value == state.questions[state.currentQuestionIndex].correctAnswer) {
-		$(".result").show().text("Correct! 😎")
-		state.correctCount++;
-		$('.correctCount').text(state.correctCount)
-	} else if (value != state.questions[state.currentQuestionIndex].correctAnswer){
-		$(".result").show().text("Incorrect 😭")
-		$(".answerIs").show().text("The answer is " + 
-			state.questions[state.currentQuestionIndex]
-			.choices[state.questions[state.currentQuestionIndex]
-			.correctAnswer])
-		state.incorrectCount++;
-		$(".incorrectCount").text(state.incorrectCount)
-	}
-};
-
 function displayQuestion() {
 	state.currentQuestionIndex++;
 	if (state.currentQuestionIndex < state.questions.length) {
@@ -80,9 +50,39 @@ function displayAnswerChoices() {
 	state.choiceList.empty();
 	var choicesArray = state.questions[state.currentQuestionIndex].choices;
 	for (var i = 0; i < numberOfChoices; i++) {	
-		$('<li><input type="radio" value=' + i + ' name="dynradio" required/>' + " " + choicesArray[i] + '</li>').appendTo(state.choiceList);
+		$('<li><input type="radio" id="dynradio-'+ i +'" value=' + i + ' name="dynradio" required/><label for="dynradio-'+ i +'">' + choicesArray[i] + '</label></li>').appendTo(state.choiceList);
 	}
 }
+
+function checkAnswer() {
+	$('h5').hide();
+	var value = $("input[type='radio']:checked").val();
+	if (value === undefined) {
+		$('.result').show().text("Please answer question")
+	} else if (value == state.questions[state.currentQuestionIndex].correctAnswer) {
+		$(".result").show().text("Correct! 😎")
+		state.correctCount++;
+		$('.correctCount').text(state.correctCount)
+		$('.nextQuestionButton').show()
+	} else if (value != state.questions[state.currentQuestionIndex].correctAnswer){
+		$(".result").show().text("Incorrect 😭")
+		$(".answerIs").show().text("The answer is " + 
+			state.questions[state.currentQuestionIndex]
+			.choices[state.questions[state.currentQuestionIndex].correctAnswer])
+		state.incorrectCount++;
+		$(".incorrectCount").text(state.incorrectCount)
+		$('.nextQuestionButton').show()
+	}
+};
+
+function resetGame() {
+	state.correctCount = 0;
+	state.incorrectCount = 0;
+	state.currentQuestionIndex = 0;
+	$('.question').text(state.questions[0].question);
+	$('.result').text('');
+	$('.currentQuestionCount').text("1");
+};
 
 // Render functions
 function renderIntroPage() {
@@ -94,7 +94,7 @@ function renderQuestionPage() {
 	resetGame();
 	$('.correctCount').text(state.correctCount);
 	$('.incorrectCount').text(state.incorrectCount);
-	$(".result, .startButton, .explaination").hide();
+	$(".result, .startButton, .explaination, .nextQuestionButton").hide();
 	$(".score, .quiz, .submitButton, h5").show();
 	$('.submitButton').text("Submit");
 	displayAnswerChoices();
@@ -120,7 +120,7 @@ $(".nextQuestionButton").on("click", function(event) {
 	if (value === undefined) {
 		$('.result').show().text("Please answer question")
 	} else {		
-		$('.result, .answerIs').hide();
+		$('.result, .answerIs, .nextQuestionButton').hide();
 		displayQuestion();
 	}
 })
